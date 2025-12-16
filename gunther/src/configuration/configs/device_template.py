@@ -2,13 +2,10 @@ from typing import Literal
 
 from pydantic import BaseModel
 
-from .antenna_config import AntennaConfigType
+from .radio_config import RadioConfig
 
 
 class DeviceTemplate(BaseModel):
     name: str
-    antenna_config: AntennaConfigType
-    tx_power_dbm: float
-    frequency_mhz: float
-    noise_floor_dbm: float
+    radios: list[RadioConfig]
     role: Literal["relay", "endpoint"]
