@@ -8,8 +8,8 @@ from .region_mask import RegionType
 
 class GridPlacement(BaseModel):
     type: Literal["grid"] = "grid"
-    region: RegionType
-    exclude: RegionType
+    region: RegionType | None
+    exclude: RegionType | None
     resolution: float
     height: float
     orientation_mode: OrientationConfig

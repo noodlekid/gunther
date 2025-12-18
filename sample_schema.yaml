@@ -1,0 +1,74 @@
+environment_config:
+  scene_config:
+    path: "scenes/utah_mdrs.xml"
+    coordinate_system: "utm"
+    origin: [ 430000, 4502000, 0 ]
+  bounds:
+  - type: polygon
+    vertices: [ [ 430000, 4502000 ], [ 430200, 4502000 ], [ 430200, 4502200 ], [ 430000, 4502200 ] ]
+  exclusion_zones:
+  - type: polygon
+    vertices: [ [ 430080, 4502080 ], [ 430120, 4502080 ], [ 430120, 4502120 ], [ 430080, 4502120 ] ]
+
+device_templates:
+- name: "rover"
+  role: endpoint
+  radios:
+  - name: "access"
+    frequency_mhz: 2400
+    tx_power_dbm: 15
+    noise_floor_dbm: -90
+    antenna_config:
+      type: isotropic
+      name: "omni_antenna"
+
+- name: "base"
+  role: endpoint
+  radios:
+  - name: "main"
+    frequency_mhz: 2400
+    tx_power_dbm: 28
+    noise_floor_dbm: -100
+    antenna_config:
+      type: isotropic
+      name: "omni_antenna"
+
+node_configs:
+- name: "base_station"
+  template: "base"
+  placement:
+    type: fixed
+    position: [ 0, 0, 3 ]
+    orientation_mode:
+      type: fixed
+      quaternion: [ 1, 0, 0, 0 ]
+
+- name: "rover"
+  template: "rover"
+  placement:
+    type: grid
+    resolution: 10
+    height: 1.5
+    region:
+      type: polygon
+      vertices: [ [ 50, 50 ], [ 150, 50 ], [ 150, 150 ], [ 50, 150 ] ]
+    exclude:
+      type: polygon
+      vertices: [ [ 80, 80 ], [ 120, 80 ], [ 120, 120 ], [ 80, 120 ] ]
+    orientation_mode:
+      type: fixed
+      quaternion: [ 1, 0, 0, 0 ]
+
+solver_config:
+  max_depth: 10
+  max_num_paths_per_src: 5
+  samples_per_src: 10000000
+  synthetic_array: true
+  los: true
+  specular_reflection: true
+  diffuse_reflection: true
+  refraction: true
+  diffraction: true
+  edge_diffraction: true
+  diffraction_lit_region: true
+  seed: 42
